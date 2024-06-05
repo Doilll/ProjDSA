@@ -4,12 +4,14 @@ public class Transaksi {
     private double kodeTr;
     private int jumlah;
     private boolean isDone;
+    private Makanan makanan;
 
-    Transaksi(double kodeTr,String nama,int jumlah,boolean isDone) {
+    Transaksi(double kodeTr, String nama, int jumlah, boolean isDone, Makanan makanan) {
         this.kodeTr = kodeTr;
         this.nama = nama;
         this.jumlah = jumlah;
         this.isDone = isDone;
+        this.makanan = makanan;
     }
 
     public void setNama(String nama) {
@@ -38,6 +40,10 @@ public class Transaksi {
 
     public int getJumlah() {
         return jumlah;
+    }
+
+    public Makanan getMakanan() {
+        return makanan;
     }
 
 }
