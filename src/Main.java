@@ -113,7 +113,7 @@ public class Main {
                                 System.out.println("Okayy");
                                 break;
                         }
-                    } while (inp2 == 4);
+                    } while (inp2 != 4);
                     trList.insertAtTail(new Transaksi(kodeTr, namaPembeli, jum, false, pesanan));
                     Node<Transaksi> currentTr = trList.getTail();
                     Transaksi tail = currentTr.getData();
@@ -184,6 +184,7 @@ public class Main {
                                     System.out.println("Harga: " + pesananMem.getHarga());
                                     System.out.println("Jumlah: " + juml);
                                     System.out.println("Total: " + pesananMem.getHarga() * juml);
+                                    System.out.println("diskon: " + pesananMem.getHarga() * juml * 5 / 100);
                                 } catch (Exception e) {
                                     System.out.println("Anda belum memesan makanan");
                                 }
@@ -194,7 +195,8 @@ public class Main {
                                 System.out.println("Pw diubah");
                                 break;
                             case 5:
-                                piutang += pesananMem.getHarga() * juml;
+                                int diskon = pesananMem.getHarga() * juml * 5 / 100;
+                                piutang += pesananMem.getHarga() * juml - diskon;
                                 System.out.println("selesai");
                                 break;
                         }
