@@ -1,12 +1,16 @@
 public class DoubleLinkedList<T> {
-    private Node head, tail;
+    private Node<T> head, tail;
 
     public boolean isEmpty() {
         return head == null;
     }
 
-    public Node getHead() {
+    public Node<T> getHead() {
         return head;
+    }
+
+    public Node<T> getTail() {
+        return tail;
     }
 
     public void insertAtHead(T data) {
