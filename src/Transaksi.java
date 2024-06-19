@@ -1,5 +1,6 @@
 public class Transaksi {
-
+    
+    private static int kodeTrKonter;
     private String nama;
     private double kodeTr;
     private int jumlah;
@@ -7,8 +8,8 @@ public class Transaksi {
     private Makanan makanan;
     private int totalHarga;
 
-    Transaksi(double kodeTr, String nama, int jumlah, boolean isDone, Makanan makanan) {
-        this.kodeTr = kodeTr;
+    Transaksi(String nama, int jumlah, boolean isDone, Makanan makanan) {
+        this.kodeTr = kodeTrKonter++;
         this.nama = nama;
         this.jumlah = jumlah;
         this.isDone = isDone;
@@ -54,6 +55,10 @@ public class Transaksi {
 
     public int getTotalHarga() {
         return totalHarga;
+    }
+
+    public static int getKodeTrKonter() {
+        return kodeTrKonter;
     }
 
     public void tampilkanData() {

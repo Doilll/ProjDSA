@@ -13,8 +13,8 @@ public class Main {
         int n = 1;
         while (current != null) {
             Makanan makanan = current.getData();
-            System.out.println(n + ". " + makanan.getNama()); // Assuming getNama() returns the name of the food
-            n += 1; // item
+            System.out.println(n + ". " + makanan.getNama()); 
+            n += 1;
             current = current.getNext();
         }
     }
@@ -24,7 +24,6 @@ public class Main {
 
     public static void main(String[] args) {
         DoubleLinkedList<Transaksi> trList = new DoubleLinkedList<>();
-        double kodeTr = 001;
         Makanan martabak1 = new Makanan("martabak coklat", 10000);
         Makanan martabak2 = new Makanan("martabak keju", 12000);
         Makanan martabak3 = new Makanan("martabak keju & coklat", 15000);
@@ -61,27 +60,31 @@ public class Main {
                         inp2 = s1.nextInt();
                         switch (inp2) {
                             case 1:
-                                System.out.println("Menu pilihan");
-                                displayAllFoodNames(menu);
-                                System.out.print("Input pilihan: ");
-                                int inpMenu = s1.nextInt();
-                                Node<Makanan> current = menu.getHead();
-                                int n = 1;
-                                boolean k = false;
-                                while (current != null) {
-                                    if (n == inpMenu) {
-                                        pesanan = current.getData();
-                                        k = true;
+                                if(pesanan == null) {
+                                    System.out.println("Menu pilihan");
+                                    displayAllFoodNames(menu);
+                                    System.out.print("Input pilihan: ");
+                                    int inpMenu = s1.nextInt();
+                                    Node<Makanan> current = menu.getHead();
+                                    int n = 1;
+                                    boolean k = false;
+                                    while (current != null) {
+                                        if (n == inpMenu) {
+                                            pesanan = current.getData();
+                                            k = true;
+                                        }
+                                        n += 1;
+                                        current = current.getNext();
                                     }
-                                    n += 1;
-                                    current = current.getNext();
-                                }
-                                if (k) {
-                                    System.out.println("Anda memesan " + pesanan.getNama());
-                                    System.out.print("Input jumlah: ");
-                                    jum = s1.nextInt();
+                                    if (k) {
+                                        System.out.println("Anda memesan " + pesanan.getNama());
+                                        System.out.print("Input jumlah: ");
+                                        jum = s1.nextInt();
+                                    } else {
+                                        System.out.println("Pilihan tidak valid");
+                                    }
                                 } else {
-                                    System.out.println("Pilihan tidak valid");
+                                    System.out.println("Anda sudah memesan " + pesanan.getNama());
                                 }
 
                                 break;
@@ -98,7 +101,7 @@ public class Main {
                                 break;
                             case 3:
                                 System.out.println("nama: " + namaPembeli);
-                                System.out.println("kode transaksi: " + kodeTr);
+                                System.out.println("kode transaksi: " + Transaksi.getKodeTrKonter());
                                 try {
                                     System.out.println("Pesanan: " + pesanan.getNama());
                                     System.out.println("Harga: " + pesanan.getHarga());
@@ -114,12 +117,11 @@ public class Main {
                                 break;
                         }
                     } while (inp2 != 4);
-                    trList.insertAtTail(new Transaksi(kodeTr, namaPembeli, jum, false, pesanan));
+                    trList.insertAtTail(new Transaksi(namaPembeli, jum, false, pesanan));
                     Node<Transaksi> currentTr = trList.getTail();
                     Transaksi tail = currentTr.getData();
                     tail.setTotalHarga();
                     System.out.println("Transaksi berhasil disimpan");
-                    kodeTr = +001;
                     break;
                 case 2:
                     Scanner s2 = new Scanner(System.in);
@@ -150,7 +152,7 @@ public class Main {
                                 boolean k = false;
                                 while (currentM != null) {
                                     if (n == inpMenu) {
-                                        pesanan = currentM.getData();
+                                        pesananMem = currentM.getData();
                                         k = true;
                                     }
                                     n += 1;
@@ -178,7 +180,7 @@ public class Main {
                                 break;
                             case 3:
                                 System.out.println("nama: " + namaMember);
-                                System.out.println("kode transaksi: " + kodeTr);
+                                System.out.println("kode transaksi: " + Transaksi.getKodeTrKonter());
                                 try {
                                     System.out.println("Pesanan: " + pesananMem.getNama());
                                     System.out.println("Harga: " + pesananMem.getHarga());
@@ -190,8 +192,9 @@ public class Main {
                                 }
                                 break;
                             case 4:
-                                System.out.print("Silahkan ubah password anda: ");
-                                pass = s2.nextLine();
+                                Scanner st = new Scanner(System.in);
+                                System.out.print("Silahkan ubah password baru: ");
+                                pass = st.nextLine();
                                 System.out.println("Pw diubah");
                                 break;
                             case 5:
@@ -201,17 +204,16 @@ public class Main {
                                 break;
                         }
                     } while (inp3 != 5);
-                    trList.insertAtTail(new MemberTransaksi(kodeTr, namaMember, juml, false, pass, pesananMem));
+                    trList.insertAtTail(new MemberTransaksi(namaMember, juml, false, pass, pesananMem));
                     Node<Transaksi> currentTrm = trList.getTail();
                     Transaksi tailM = currentTrm.getData();
                     tailM.setTotalHarga();
                     System.out.println("Transaksi berhasil disimpan");
-                    kodeTr = +001;
                     break;
                 case 3:
                     Scanner s3 = new Scanner(System.in);
                     while (true) {
-                        System.out.println("input password");
+                        System.out.print("input password: ");
                         String inp4 = s3.nextLine();
                         if (inp4.equals(pwAdmin)) {
                             System.out.println("Input berhasil");
@@ -224,6 +226,7 @@ public class Main {
                     System.out.println("Daftar pelanggan");
                     for (Node<Transaksi> current = trList.getHead(); current != null; current = current.getNext()) {
                         current.data.tampilkanData();
+                        System.out.println("");
                     }
                     Node<Transaksi> proses = null;
                     for (Node<Transaksi> current = trList.getHead(); current != null; current = current.getNext()) {
@@ -236,17 +239,18 @@ public class Main {
                     do {
                         System.out.println("Proses transaksi");
                         System.out.println("1. konfirmasi transaksi/n 2. keluar");
+                        System.out.print("Input: ");
                         p = s3.nextInt();
                         if (p == 1) {
-                            if (proses == null) {
+                            try {
                                 proses.data.setDone(true);
                                 pendapatan += proses.getData().getTotalHarga();
                                 piutang -= proses.getData().getTotalHarga();
                                 System.out.println(
-                                        "pesanan dengan nama " + proses.getData().getNama() + "berhasil di proses");
+                                        "pesanan dengan nama " + proses.getData().getNama() + " berhasil di proses");
                                 proses = proses.getNext();
-                            } else {
-                                System.out.println("Semua pesanan sudah dikonfirmasi");
+                            } catch(Exception e) {
+                                System.out.println("Tidak ada pesanan lagi");
                             }
                         } else if (p == 2) {
                             System.out.println("Pemrosesan terhenti");
@@ -260,7 +264,7 @@ public class Main {
                 case 4:
                     Scanner s4 = new Scanner(System.in);
                     while (true) {
-                        System.out.println("input password");
+                        System.out.print("input password: ");
                         String inp4 = s4.nextLine();
                         if (inp4.equals(pwOwner)) {
                             System.out.println("Input berhasil");
@@ -279,20 +283,18 @@ public class Main {
                         if (pilihOwner == 1) {
                             System.out.println("Input nama barang yang ingin diubah: ");
                             String namaBarang = s4.next();
-                            Makanan ubahHarga = null;
                             boolean ketemuMenu = false;
                             for (Node<Makanan> currentMakanan = menu.getHead(); currentMakanan != null; currentMakanan
                                     .getNext()) {
                                 if (currentMakanan.getData().getNama().equals(namaBarang)) {
-                                    ubahHarga = currentMakanan.getData();
+                                    System.out.print("Input harga baru: ");
+                                    int hargaBaru = s4.nextInt();
+                                    currentMakanan.getData().setHarga(hargaBaru);
                                     ketemuMenu = true;
                                     break;
                                 }
                             }
                             if (ketemuMenu) {
-                                System.out.println("Input harga baru: ");
-                                int hargaBaru = s4.nextInt();
-                                ubahHarga.setHarga(hargaBaru);
                                 System.out.println("Harga berhasil diubah");
                                 System.out.println("");
                             } else {

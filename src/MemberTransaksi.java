@@ -2,8 +2,8 @@ public class MemberTransaksi extends Transaksi {
 
     private String kodeMem;
 
-    public MemberTransaksi(double kodeTr, String nama, int jumlah, boolean isDone, String kodeMem, Makanan makanan) {
-        super(kodeTr, nama, jumlah, isDone, makanan);
+    public MemberTransaksi(String nama, int jumlah, boolean isDone, String kodeMem, Makanan makanan) {
+        super(nama, jumlah, isDone, makanan);
         this.kodeMem = kodeMem;
     }
 
